@@ -1,10 +1,12 @@
-import globeImg from '../assets/globe.jpg';
+import ChefImg from "../assets/chef.png";
 
 export default function Header() {
   return (
     <header>
-      <img src={globeImg} alt="Globe" width={50} height={50}/>
-      <h1>My Travel Journal.</h1>
+      <div className="container">
+        <img src={ChefImg} alt="Chef" width={40} height={50} />
+        <h1>Chef Claude</h1>
+      </div>
     </header>
   );
 }
