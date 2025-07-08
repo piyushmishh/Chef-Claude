@@ -1,3 +1,16 @@
 export default function Main(){
-    return <h1>Main component</h1>
+    return (
+        <main>
+            <form className="add-ing-form">
+
+                <input 
+                    aria-label="Add Ingredient"
+                    placeholder="e.g.oregano"
+                    text="text"
+                    
+                />
+                <button>Add Ingredient</button>
+            </form>
+        </main>
+    )
 }
