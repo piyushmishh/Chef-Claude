@@ -12,8 +12,6 @@ export default function Main(){
         const newingridient=formData.get("ingridient")
         setingridients(previngridients=> [...previngridients,newingridient])
     }
-//function setfav(){
-//setmyfav(prevfav=> {...prevfav,new item here})} doesnot modifies the existing array instead creates a new array with prev elemnts and new elements
 
     return (
         <main>
@@ -22,50 +20,118 @@ export default function Main(){
                 <input 
                     aria-label="Add Ingredient"
                     placeholder="e.g.oregano"
-                    text="text"
+                    type="text"
                     name="ingridient"
                 />
                 <button>Add Ingredient</button>
             </form>
-            <ul>
-                {ili}
-            </ul>
+            {ingridients.length >0 && <section>
+                <h2>Ingridients on hand:</h2>
+                <ul className="ingridient-list" aria-live="polite">{ili}</ul>
+                {ingridients.length > 3 && <div className="get-recipe container">
+                    <div>
+                        <h3>Ready for a recipe?</h3>
+                        <p>Generate a recipe from your list of ingridients.</p>
+                    </div>
+                    <button>Get a recipe</button>
+                </div>}
+            </section>}
         </main>
     )
 }
 
 
+//function setfav(){
+//setmyfav(prevfav=> {...prevfav,new item here})} doesnot modifies the existing array instead creates a new array with prev elemnts and new elements
 
+// Forms in React
+// Very diff types of input (text, radio)
 
-//forms in react
-//very diff types of input(text,radio)
-/* <input type="radio/text" name="email"  placeholder="Email"  />
+/*
+<input type="radio" name="email" placeholder="Email" />
+<input type="text" name="email" placeholder="Email" />
 <button></button>
-another input types as submit  */
-//how to take data
-// funtion handlesubmit(event){
+
+Another input type is "submit"
+*/
+
+// How to take data
+// function handleSubmit(event) {
 //     event.preventDefault();
-//     const formel=event.currentTarget //this and below line getting us access of form data
-//     const formdata=new FormData(formel)
-//     const email=formdata.get("email")
-//     formel.reset()
+//     const formEl = event.currentTarget; // gets access to form element
+//     const formData = new FormData(formEl); // gets form data
+//     const email = formData.get("email"); // to get specific input value
+//     formEl.reset(); // reset form after submit
 // }
 
-//another method
-{/* <form action={signup}></form>
+// Another method:
+/*
+<form action={signup}></form>
+
 function signup(formData) {
-    const email=FormData.get("email")    better method
-    const pass=formdata.get("password")
-} */}
+    const email = formData.get("email"); // better method
+    const pass = formData.get("password");
 
-//other form input types
-{/* <textarea></textarea>used for long textsss in a rectangualr box we 
-we can give it an id and then use it in <label htmlFor="_id"></label>
-defaultvalue is used ofr initialising it with a defaultvalue which shown there
-<input types="radio"
- /> selecting all if multiple used so use the same name for multipleto guarantee one use
- while creating radio button use value in it to use while its being submitted
+    // another way to get all entries in one go
+    const data = Object.fromEntries(formData);
 
- similary are the checkboxes use getAll for all the options as Array
- for dropdown use select and insode that use <option value="Red"></option> */}
+    // to combine with existing object
+    const allData = {
+        ...data,
+        dd: formData.get("dd")
+    };
+
+    // or access one specifically
+    const dd = formData.getAll("dd"); // returns array for checkboxes etc.
+}
+*/
+
+// Other form input types:
+
+/*
+<textarea id="bio" defaultValue="Write your bio here"></textarea>
+
+<label htmlFor="bio">Bio</label>
+
+<input type="radio" name="color" value="Red" />
+<input type="radio" name="color" value="Blue" />
+
+// For radio buttons: use same `name` to ensure one can be selected
+
+<input type="checkbox" name="hobbies" value="Reading" />
+<input type="checkbox" name="hobbies" value="Gaming" />
+
+// For checkboxes: use formData.getAll("hobbies") to get array
+
+<select name="country">
+    <option value="India">India</option>
+    <option value="USA">USA</option>
+</select>
+*/
+
+//7 17 conditional rendering
+
+// {
+//     unreadmsg.len>0 && <h1>you have {unreadmsg.len} unreadmsgsss</h1>
+// }
+//ternary cond rendeing
+{/* <buttono onclick={toggleshown}>{isishown? "hide":"show"}punchline</buttono>></button> just changes the word on the button */}
+
+//instead of using && just use the tenary and the other option be null like
+// <isshown ? <P>{PaymentResponse.punchline}</P> : null
+
+// for multiple Cases 
+// let text
+
+// if(MessageChannel.length===0){
+//     text="0 msg"
+// }else if(message.length===1){
+//     text="1msg"
+// }else{
+//     text="${message.length} unread messages"
+// }
+
+// can make a funtion determinetext(){
+//     and then return the text and then caal it like {determinetext()}
+// }
 
