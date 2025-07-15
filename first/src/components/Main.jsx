@@ -1,45 +1,43 @@
-import React from "react" //to use {usestate}
+import React from "react"; //to use {usestate}
+import Ingridientslist from "./Ingridientslist";
+import Claudrecipe from "./Clauderecipe";
 
-export default function Main(){
+export default function Main() {
+  const [ingridients, setingridients] = React.useState([
+    "all the main spices",
+    "pasta",
+    "ground beef",
+    "tomato paste",
+  ]);
 
-    const  [ingridients,setingridients]=React.useState([])
+  const [recipeShown, setrecipeShown] = React.useState(false);
+  function togglerecipeshown(){
+    setrecipeShown(prevshoen => !prevshoen)
+  }
+  
+  function handlesubmit(formData) {
+    const newingridient = formData.get("ingridient");
+    setingridients((previngridients) => [...previngridients, newingridient]);
+  }
 
-    const ili = ingridients.map(ingridient => (
-    <li key={ingridient}>{ingridient}</li>
-    ))  
-
-    function handlesubmit(formData){
-        const newingridient=formData.get("ingridient")
-        setingridients(previngridients=> [...previngridients,newingridient])
-    }
-
-    return (
-        <main>
-            <form action={handlesubmit} className="add-ing-form">
-
-                <input 
-                    aria-label="Add Ingredient"
-                    placeholder="e.g.oregano"
-                    type="text"
-                    name="ingridient"
-                />
-                <button>Add Ingredient</button>
-            </form>
-            {ingridients.length >0 && <section>
-                <h2>Ingridients on hand:</h2>
-                <ul className="ingridient-list" aria-live="polite">{ili}</ul>
-                {ingridients.length > 3 && <div className="get-recipe container">
-                    <div>
-                        <h3>Ready for a recipe?</h3>
-                        <p>Generate a recipe from your list of ingridients.</p>
-                    </div>
-                    <button>Get a recipe</button>
-                </div>}
-            </section>}
-        </main>
-    )
+  return (
+    <main>
+      <form action={handlesubmit} className="add-ing-form">
+        <input
+          aria-label="Add Ingredient"
+          placeholder="e.g.oregano"
+          type="text"
+          name="ingridient"
+        />
+        <button>Add Ingredient</button>
+      </form>
+      {ingridients.length > 0 && 
+      (<Ingridientslist ingridients={ingridients} togglerecipeshown={togglerecipeshown}/>
+      )}
+      {recipeShown && <Claudrecipe/>}
+    </main>
+  );
 }
-
 
 //function setfav(){
 //setmyfav(prevfav=> {...prevfav,new item here})} doesnot modifies the existing array instead creates a new array with prev elemnts and new elements
@@ -115,12 +113,14 @@ function signup(formData) {
 //     unreadmsg.len>0 && <h1>you have {unreadmsg.len} unreadmsgsss</h1>
 // }
 //ternary cond rendeing
-{/* <buttono onclick={toggleshown}>{isishown? "hide":"show"}punchline</buttono>></button> just changes the word on the button */}
+{
+  /* <buttono onclick={toggleshown}>{isishown? "hide":"show"}punchline</buttono>></button> just changes the word on the button */
+}
 
 //instead of using && just use the tenary and the other option be null like
 // <isshown ? <P>{PaymentResponse.punchline}</P> : null
 
-// for multiple Cases 
+// for multiple Cases
 // let text
 
 // if(MessageChannel.length===0){
@@ -134,4 +134,3 @@ function signup(formData) {
 // can make a funtion determinetext(){
 //     and then return the text and then caal it like {determinetext()}
 // }
-
