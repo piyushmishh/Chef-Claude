@@ -1,43 +1,47 @@
-import React from "react"; //to use {usestate}
+import React from "react";
 import Ingridientslist from "./Ingridientslist";
 import Claudrecipe from "./Clauderecipe";
+import { getRecipeFromMistral } from "./ai";
 
 export default function Main() {
-  const [ingridients, setingridients] = React.useState([
-    "all the main spices",
-    "pasta",
-    "ground beef",
-    "tomato paste",
-  ]);
+  const [ingridients, setingridients] = React.useState([]);
 
-  const [recipeShown, setrecipeShown] = React.useState(false);
-  function togglerecipeshown(){
-    setrecipeShown(prevshoen => !prevshoen)
+  const [recipe, setrecipe] = React.useState("");
+
+  async function getrecipe() {
+    const generatedrecipemarkdown = await getRecipeFromMistral(ingridients);
+    setrecipe(generatedrecipemarkdown);
   }
-  
-  function handlesubmit(formData) {
+
+  function handlesubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
     const newingridient = formData.get("ingridient");
-    setingridients((previngridients) => [...previngridients, newingridient]);
+    if (newingridient?.trim()) {
+      setingridients((previngridients) => [...previngridients, newingridient]);
+      e.target.reset();
+    }
   }
 
   return (
     <main>
-      <form action={handlesubmit} className="add-ing-form">
+      <form onSubmit={handlesubmit} className="add-ing-form">
         <input
           aria-label="Add Ingredient"
-          placeholder="e.g.oregano"
+          placeholder="e.g. oregano"
           type="text"
           name="ingridient"
         />
         <button>Add Ingredient</button>
       </form>
-      {ingridients.length > 0 && 
-      (<Ingridientslist ingridients={ingridients} togglerecipeshown={togglerecipeshown}/>
+      {ingridients.length > 0 && (
+        <Ingridientslist ingridients={ingridients} getrecipe={getrecipe} />
       )}
-      {recipeShown && <Claudrecipe/>}
+      {recipe && <Claudrecipe recipe={recipe} />}
     </main>
   );
 }
+
 
 //function setfav(){
 //setmyfav(prevfav=> {...prevfav,new item here})} doesnot modifies the existing array instead creates a new array with prev elemnts and new elements
